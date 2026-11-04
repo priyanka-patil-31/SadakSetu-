@@ -25,6 +25,7 @@ The launcher starts:
 - Android debug build and installation through `adb`
 
 The Android phone and computer must be connected to the same Wi-Fi network. Set `SADAKSETU_LAN_IP` if the launcher detects the wrong network address.
+The web dashboard routes `/api` requests through Vite to the local backend, so the browser uses the same origin whether opened on the computer or over the LAN.
 
 ## Web development
 
@@ -59,5 +60,5 @@ Install the resulting APK from `android/app/build/outputs/apk/debug/` with `adb 
 
 ## Configuration
 
-Copy `.env.example` to `.env.local` and adjust `VITE_API_BASE_URL` when an API is available.
-
+Copy `.env.example` to `.env.local`. The local Vite server proxies `/api` requests to `http://127.0.0.1:8001`; for a separately hosted API, set `VITE_API_BASE_URL` to that API's `/api/v1` URL.
+For local development demo login, set `VITE_DEMO_ADMIN_EMAIL` and `VITE_DEMO_ADMIN_PASSWORD` in `.env.local` to an existing backend administrator account, then restart the Vite server. The Demo login button is disabled until both values are configured; do not commit real credentials.
