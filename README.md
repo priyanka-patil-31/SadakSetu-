@@ -328,6 +328,19 @@ This project is developed for academic and educational purposes. Licensing and r
 
 ---
 
+## ⭐ Support & Credits
+
+If you find this project useful or interesting, please consider giving it a **⭐ Star** on GitHub!
+
+Your support and appreciation motivate further development and improvements.
+
+**Developed with ❤️ by Priyanka Patil**
+
+⭐ Don't forget to Star this repository!
+
+ 
+---
+
 <p align="center">
   <b>SadakSetu – Building Smarter Roads Through Artificial Intelligence.</b>
 </p>
