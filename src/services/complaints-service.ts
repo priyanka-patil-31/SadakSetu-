@@ -1,7 +1,9 @@
 import type {
   BackendComplaintStatus,
   Complaint,
+  ComplaintStatus,
 } from "@/lib/complaints-data";
+import { complaintStatusLabels } from "@/lib/complaints-data";
 import type {
   ComplaintListResponse,
   ComplaintQuery,
@@ -31,6 +33,7 @@ export type ComplaintService = {
   get: (id: string) => Promise<Complaint>;
   getEvidence: (id: string) => Promise<ComplaintEvidence[]>;
   update: (id: string, request: UpdateComplaintRequest) => Promise<Complaint>;
+  remove: (id: string, reason: string) => Promise<void>;
 };
 
 type BackendComplaint = {
@@ -54,12 +57,7 @@ type BackendComplaint = {
 
 function mapComplaint(item: BackendComplaint): Complaint {
   const backendStatus = item.status as BackendComplaintStatus;
-  const status =
-    backendStatus === "RESOLVED"
-      ? "Resolved"
-      : backendStatus === "IN_PROGRESS"
-        ? "In progress"
-        : "Open";
+  const status: ComplaintStatus = complaintStatusLabels[backendStatus] ?? "Submitted";
   const priority =
     item.severity === "CRITICAL"
       ? "Critical"
@@ -68,14 +66,16 @@ function mapComplaint(item: BackendComplaint): Complaint {
         : item.severity === "LOW"
           ? "Low"
           : "Medium";
+  const address = item.location.address?.trim() || item.location.area?.trim();
+  const location = address || `${item.location.latitude.toFixed(5)}, ${item.location.longitude.toFixed(5)}`;
   return {
     id: item.complaint_number || item.id,
     backendId: item.id,
     title: item.title,
     category: "Pothole",
     backendStatus,
-    location: item.location.address || item.location.area || "Unknown",
-    zone: item.location.zone || "Unassigned",
+    location,
+    zone: item.location.zone?.trim() || "Zone not set",
     status,
     priority,
     reporter: item.reporter_id,
@@ -83,7 +83,7 @@ function mapComplaint(item: BackendComplaint): Complaint {
     reportedAt: item.created_at,
     description: item.description,
     image: "",
-    assignedTeam: item.assigned_team_id || "Unassigned",
+    assignedTeam: item.assigned_team_id || "Not assigned",
     notes: [],
     coordinates: [item.location.latitude, item.location.longitude],
   };
@@ -165,6 +165,11 @@ export const realComplaintService: ComplaintService = {
         note: request.note,
       });
     return realComplaintService.get(id);
+  },
+  async remove(id, reason) {
+    await apiClient.delete(`/complaints/${encodeURIComponent(id)}`, {
+      data: { reason },
+    });
   },
 };
 

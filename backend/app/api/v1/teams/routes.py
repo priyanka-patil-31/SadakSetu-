@@ -39,6 +39,9 @@ def create_team(
         lead_name=payload.lead_name.strip(),
         phone=payload.phone.strip(),
         email=str(payload.email).casefold(),
+        zone=payload.zone.strip(),
+        members=payload.members,
+        specialties=[item.strip() for item in payload.specialties if item.strip()],
         availability=payload.availability,
     )
     db.add(team)
@@ -74,13 +77,19 @@ def list_teams(
     if is_active is not None:
         filters.append(RepairTeam.is_active == is_active)
     total = db.scalar(select(func.count()).select_from(RepairTeam).where(*filters)) or 0
-    items = db.scalars(
-        select(RepairTeam)
+    team_rows = db.execute(
+        select(RepairTeam, func.count(Complaint.id).label("assigned_work_count"))
+        .outerjoin(Complaint, Complaint.assigned_team_id == RepairTeam.id)
         .where(*filters)
+        .group_by(RepairTeam.id)
         .order_by(RepairTeam.created_at.desc())
         .offset((page - 1) * page_size)
         .limit(page_size)
     ).all()
+    items = [
+        TeamResponse.model_validate(team).model_copy(update={"assigned_work_count": assigned_work_count})
+        for team, assigned_work_count in team_rows
+    ]
     return TeamListResponse(items=items, total=total, page=page, page_size=page_size)
 
 
@@ -101,10 +110,14 @@ def update_team(
     db: DBSession = Depends(get_db),
 ) -> RepairTeam:
     team = _get_team(db, team_id)
-    for field in ("name", "lead_name", "phone", "availability", "is_active"):
+    for field in ("name", "lead_name", "phone", "zone", "availability", "is_active"):
         value = getattr(payload, field)
         if value is not None:
             setattr(team, field, value.strip() if isinstance(value, str) else value)
+    if payload.members is not None:
+        team.members = payload.members
+    if payload.specialties is not None:
+        team.specialties = [item.strip() for item in payload.specialties if item.strip()]
     if payload.email is not None:
         team.email = str(payload.email).casefold()
     try:

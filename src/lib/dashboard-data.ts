@@ -1,4 +1,6 @@
-export type DashboardStatus = 'Open' | 'In progress' | 'Resolved'
+import type { ComplaintStatus } from '@/lib/complaints-data'
+
+export type DashboardStatus = ComplaintStatus
 
 export type DashboardStat = { label: string; value: string; change: string; detail: string; tone: 'orange' | 'green' | 'blue' | 'violet' }
 export type DashboardActivity = { day: string; complaints: number; resolved: number }

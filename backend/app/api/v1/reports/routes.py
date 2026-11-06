@@ -41,6 +41,7 @@ def _complaints(db: DBSession, start_date: date | None, end_date: date | None) -
 def _summary(db: DBSession, start_date: date | None, end_date: date | None) -> ReportSummary:
     complaints = _complaints(db, start_date, end_date)
     severity_distribution = {level.value: 0 for level in SeverityLevel}
+    severity_resolved_distribution = {level.value: 0 for level in SeverityLevel}
     monthly: dict[str, MonthlyTrend] = {}
     areas: dict[str, AreaReport] = {}
     teams: dict[str, TeamPerformance] = {}
@@ -52,10 +53,13 @@ def _summary(db: DBSession, start_date: date | None, end_date: date | None) -> R
         monthly[month].total += 1
         if complaint.status == ComplaintStatus.RESOLVED:
             monthly[month].resolved += 1
+            severity_resolved_distribution[complaint.severity.value] += 1
         area = complaint.location.area if complaint.location and complaint.location.area else "Unknown"
         if area not in areas:
-            areas[area] = AreaReport(area=area, total=0, critical=0)
+            areas[area] = AreaReport(area=area, total=0, critical=0, resolved=0)
         areas[area].total += 1
+        if complaint.status == ComplaintStatus.RESOLVED:
+            areas[area].resolved += 1
         if complaint.severity == SeverityLevel.CRITICAL:
             areas[area].critical += 1
         if complaint.assigned_team is not None:
@@ -98,6 +102,7 @@ def _summary(db: DBSession, start_date: date | None, end_date: date | None) -> R
         resolved_complaints=sum(item.status == ComplaintStatus.RESOLVED for item in complaints),
         rejected_complaints=sum(item.status == ComplaintStatus.REJECTED for item in complaints),
         severity_distribution=severity_distribution,
+        severity_resolved_distribution=severity_resolved_distribution,
         monthly_trends=list(monthly.values()),
         area_distribution=list(areas.values()),
         team_performance=list(teams.values()),

@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from app.models.enums import UserRole
 
@@ -10,19 +10,22 @@ class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: UUID
-    email: EmailStr
+    # The local demo administrator intentionally uses a `.local` address.
+    # Keep this as a string so admin list responses can serialize that account.
+    email: str
     full_name: str
     phone: str | None
     area: str | None
     role: UserRole
     is_active: bool
     created_at: datetime
+    complaints_submitted: int = 0
 
 
 class UserProfileUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    email: EmailStr | None = None
+    email: str | None = Field(default=None, min_length=3, max_length=320)
     full_name: str | None = Field(default=None, min_length=2, max_length=160)
     phone: str | None = Field(default=None, max_length=40)
     area: str | None = Field(default=None, max_length=160)
@@ -38,7 +41,7 @@ class PasswordUpdateRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     current_password: str = Field(min_length=1, max_length=128)
-    new_password: str = Field(min_length=12, max_length=128)
+    new_password: str = Field(min_length=8, max_length=128)
 
 
 class UserPreferences(BaseModel):

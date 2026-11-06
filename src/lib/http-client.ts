@@ -12,6 +12,12 @@ export function getSessionAuthHeaders(storage?: Storage): Record<string, string>
 export const apiClient = axios.create({ baseURL: API_BASE_URL, timeout: API_TIMEOUT_MS, withCredentials: true, headers: { Accept: 'application/json', 'Content-Type': 'application/json' } })
 
 apiClient.interceptors.request.use((config) => {
+  if (config.baseURL) {
+    config.baseURL = config.baseURL.trim().replace(/\/+$/, '')
+  }
+  if (config.url) {
+    config.url = config.url.trim()
+  }
   const authHeaders = getSessionAuthHeaders()
   Object.entries(authHeaders).forEach(([key, value]) => config.headers.set(key, value))
   return config

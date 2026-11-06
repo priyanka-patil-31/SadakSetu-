@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class MonthlyTrend(BaseModel):
@@ -14,6 +14,7 @@ class AreaReport(BaseModel):
     area: str
     total: int
     critical: int
+    resolved: int = 0
 
 
 class TeamPerformance(BaseModel):
@@ -33,6 +34,7 @@ class ReportSummary(BaseModel):
     resolved_complaints: int
     rejected_complaints: int
     severity_distribution: dict[str, int]
+    severity_resolved_distribution: dict[str, int] = Field(default_factory=dict)
     monthly_trends: list[MonthlyTrend]
     area_distribution: list[AreaReport]
     team_performance: list[TeamPerformance]

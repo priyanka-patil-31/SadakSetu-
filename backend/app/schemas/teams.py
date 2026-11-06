@@ -11,8 +11,11 @@ class TeamCreate(BaseModel):
 
     name: str = Field(min_length=2, max_length=160)
     lead_name: str = Field(min_length=2, max_length=160)
-    phone: str = Field(min_length=5, max_length=40)
+    phone: str = Field(min_length=10, max_length=10, pattern=r"^\d{10}$")
     email: EmailStr
+    zone: str = Field(default="West Zone", min_length=2, max_length=80)
+    members: int = Field(default=4, ge=1, le=10_000)
+    specialties: list[str] = Field(default_factory=list, max_length=30)
     availability: TeamAvailability = TeamAvailability.AVAILABLE
 
 
@@ -21,14 +24,17 @@ class TeamUpdate(BaseModel):
 
     name: str | None = Field(default=None, min_length=2, max_length=160)
     lead_name: str | None = Field(default=None, min_length=2, max_length=160)
-    phone: str | None = Field(default=None, min_length=5, max_length=40)
+    phone: str | None = Field(default=None, min_length=10, max_length=10, pattern=r"^\d{10}$")
     email: EmailStr | None = None
+    zone: str | None = Field(default=None, min_length=2, max_length=80)
+    members: int | None = Field(default=None, ge=1, le=10_000)
+    specialties: list[str] | None = Field(default=None, max_length=30)
     availability: TeamAvailability | None = None
     is_active: bool | None = None
 
     @model_validator(mode="after")
     def require_a_change(self):
-        values = (self.name, self.lead_name, self.phone, self.email, self.availability, self.is_active)
+        values = (self.name, self.lead_name, self.phone, self.email, self.zone, self.members, self.specialties, self.availability, self.is_active)
         if all(value is None for value in values):
             raise ValueError("At least one team field must be provided")
         return self
@@ -48,10 +54,14 @@ class TeamResponse(BaseModel):
     lead_name: str
     phone: str
     email: EmailStr
+    zone: str
+    members: int
+    specialties: list[str]
     availability: TeamAvailability
     is_active: bool
     created_at: datetime
     updated_at: datetime
+    assigned_work_count: int = 0
 
 
 class TeamListResponse(BaseModel):

@@ -97,6 +97,9 @@ class RepairTeam(TimestampMixin, Base):
     lead_name: Mapped[str] = mapped_column(String(160), nullable=False)
     phone: Mapped[str] = mapped_column(String(40), nullable=False)
     email: Mapped[str] = mapped_column(String(320), nullable=False)
+    zone: Mapped[str] = mapped_column(String(80), nullable=False, server_default=text("'West Zone'"))
+    members: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text("4"))
+    specialties: Mapped[list[str]] = mapped_column(JSONType, nullable=False, default=list, server_default=text("'[]'"))
     availability: Mapped[TeamAvailability] = mapped_column(
         enum_type(TeamAvailability, "team_availability"), nullable=False
     )

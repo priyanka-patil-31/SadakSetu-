@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     session_ttl_minutes: int = 480
     android_session_ttl_days: int = 30
     session_idle_timeout_minutes: int = 60
-    password_min_length: int = 12
+    password_min_length: int = 8
     upload_root: str = "uploads"
     max_image_size_bytes: int = 10_485_760
     allowed_image_types: str = "image/jpeg,image/png,image/webp"

@@ -2,9 +2,20 @@ import type { LoginRequest, LoginResponse } from '@/lib/api-contracts'
 import { ApiError } from '@/lib/api-errors'
 import { apiClient } from '@/lib/http-client'
 
-export type AuthService = { login: (request: LoginRequest) => Promise<LoginResponse>; logout: () => Promise<void> }
+export type AuthService = {
+  login: (request: LoginRequest) => Promise<LoginResponse>
+  logout: () => Promise<void>
+  forgotPassword: (email: string, newPassword: string) => Promise<string>
+}
 
 export const realAuthService: AuthService = {
+  async forgotPassword(email: string, newPassword: string) {
+    const response = await apiClient.post<{ message: string }>('/auth/forgot-password', {
+      email,
+      new_password: newPassword,
+    })
+    return response.data.message
+  },
   async login(request) {
     const response = await apiClient.post<{
       user: { id: string; email: string; full_name: string; role: string; is_active: boolean }

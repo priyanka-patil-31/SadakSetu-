@@ -12,6 +12,7 @@ type BackendUser = {
   role: BackendRole;
   is_active: boolean;
   created_at: string;
+  complaints_submitted?: number;
 };
 
 type UserProfilePayload = {
@@ -42,7 +43,7 @@ function mapUser(user: BackendUser): UserProfile {
     area: user.area ?? "",
     status: user.is_active ? "Active" : "Inactive",
     role: roleToLabel[user.role],
-    complaintsSubmitted: 0,
+    complaintsSubmitted: user.complaints_submitted ?? 0,
     joinedAt: user.created_at,
     lastActive: "Stored in database",
   };

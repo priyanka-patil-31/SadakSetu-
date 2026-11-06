@@ -9,6 +9,7 @@ set "BACKEND=%ROOT%backend"
 set "ANDROID=%SADAKSETU_ANDROID_DIR%"
 if not defined ANDROID set "ANDROID=%ROOT%android"
 if not exist "%ANDROID%\gradlew.bat" if exist "%ROOT%..\Android Application\gradlew.bat" set "ANDROID=%ROOT%..\Android Application"
+if not exist "%ANDROID%\gradlew.bat" if exist "%ROOT%..\android\gradlew.bat" set "ANDROID=%ROOT%..\android"
 set "PYTHON=%BACKEND%\.venv\Scripts\python.exe"
 set "API_PORT=8001"
 set "WEB_PORT=5174"
@@ -75,8 +76,30 @@ if not exist "%BACKEND%\.env" (
 
 echo Starting SadakSetu backend and frontend...
 
-start "SadakSetu Backend" /D "%BACKEND%" cmd /k "set AI_MODEL_PATH=models/baseline_yolo11.pt && .venv\Scripts\python.exe -m alembic -c alembic.ini upgrade head && .venv\Scripts\python.exe -m uvicorn app.main:app --host 0.0.0.0 --port %API_PORT%"
-start "SadakSetu Web Dashboard" /D "%ROOT%" cmd /k "npm run dev -- --host 0.0.0.0 --port %WEB_PORT%"
+set "API_READY="
+curl.exe --silent --fail --max-time 2 http://127.0.0.1:%API_PORT%/health | findstr /C:"SadakSetu API" >nul 2>&1
+if not errorlevel 1 set "API_READY=1"
+
+if not defined API_READY (
+    start "SadakSetu Backend" /D "%BACKEND%" cmd /k "set AI_MODEL_PATH=models/baseline_yolo11.pt && .venv\Scripts\python.exe -m alembic -c alembic.ini upgrade head && .venv\Scripts\python.exe -m uvicorn app.main:app --host 0.0.0.0 --port %API_PORT%"
+    for /L %%A in (1,1,60) do (
+        if not defined API_READY (
+            curl.exe --silent --fail --max-time 2 http://127.0.0.1:%API_PORT%/health | findstr /C:"SadakSetu API" >nul 2>&1
+            if not errorlevel 1 set "API_READY=1"
+            if not defined API_READY timeout /t 2 /nobreak >nul
+        )
+    )
+)
+
+if not defined API_READY (
+    echo [ERROR] The SadakSetu API did not become ready on port %API_PORT%.
+    echo Check the SadakSetu Backend window for the startup error, then run this file again.
+    pause
+    exit /b 1
+)
+
+echo SadakSetu API is ready.
+start "SadakSetu Web Dashboard" /D "%ROOT%" cmd /k "set ""VITE_API_BASE_URL=/api/v1"" && npm run dev -- --host 0.0.0.0 --port %WEB_PORT%"
 
 if not exist "%ANDROID%\gradlew.bat" (
     echo [WARN] Android project was not found at:

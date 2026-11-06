@@ -1,4 +1,4 @@
-export type ComplaintStatus = "Open" | "In progress" | "Resolved";
+export type ComplaintStatus = "Submitted" | "Under review" | "AI processing" | "Assigned" | "In progress" | "Resolved" | "Rejected";
 export type BackendComplaintStatus =
   | "SUBMITTED"
   | "UNDER_REVIEW"
@@ -8,7 +8,7 @@ export type BackendComplaintStatus =
   | "RESOLVED"
   | "REJECTED";
 
-export const complaintStatusLabels: Record<BackendComplaintStatus, string> = {
+export const complaintStatusLabels: Record<BackendComplaintStatus, ComplaintStatus> = {
   SUBMITTED: "Submitted",
   UNDER_REVIEW: "Under review",
   AI_PROCESSING: "AI processing",

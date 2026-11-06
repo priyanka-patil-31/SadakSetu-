@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, status
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session as DBSession
 
@@ -7,13 +7,14 @@ from app.core.config import get_settings
 from app.core.security import hash_password
 from app.database.dependencies import get_db
 from app.dependencies.auth import get_current_auth, get_current_user
-from app.models import User, UserRole
+from app.models import Session, User, UserRole
 from app.schemas.auth import (
     AuthResponse,
     AuthUserResponse,
     LoginRequest,
     MessageResponse,
     RegisterRequest,
+    ForgotPasswordRequest,
     SessionResponse,
 )
 from app.services.audit import record_audit
@@ -84,6 +85,31 @@ def login(payload: LoginRequest, response: Response, db: DBSession = Depends(get
     record_audit(db, actor_id=user.id, action="LOGIN", entity_type="User", entity_id=user.id)
     db.commit()
     return _auth_response(response, user, token, session, payload.client_type)
+
+
+
+
+@router.post("/forgot-password", response_model=MessageResponse)
+def forgot_password(payload: ForgotPasswordRequest, db: DBSession = Depends(get_db)) -> MessageResponse:
+    settings = get_settings()
+    if len(payload.new_password) < settings.password_min_length:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=f"Password must be at least {settings.password_min_length} characters"
+        )
+    email = normalize_email(str(payload.email))
+    user = db.scalar(select(User).where(User.email == email))
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No account found with this email address")
+    if not user.is_active:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Account is deactivated")
+
+    user.password_hash = hash_password(payload.new_password)
+    db.execute(
+        update(Session).where(Session.user_id == user.id, Session.revoked_at.is_(None)).values(revoked_at=utc_now())
+    )
+    record_audit(db, actor_id=user.id, action="PASSWORD_RESET", entity_type="User", entity_id=user.id)
+    db.commit()
+    return MessageResponse(message="Password reset successfully. You can now sign in with your new password.")
 
 
 @router.post("/logout", response_model=MessageResponse)

@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session as DBSession
 from app.core.security import hash_password, verify_password
 from app.database.dependencies import get_db
 from app.dependencies.auth import get_current_auth
-from app.models import Session, User, UserRole
+from app.models import Complaint, Session, User, UserRole
 from app.schemas.users import (
     PasswordUpdateRequest,
     UserListResponse,
@@ -43,10 +43,20 @@ def list_users(
         filters.append(User.is_active == is_active)
 
     total = db.scalar(select(func.count()).select_from(User).where(*filters)) or 0
-    users = db.scalars(
-        select(User).where(*filters).order_by(User.created_at.desc()).offset((page - 1) * page_size).limit(page_size)
+    user_rows = db.execute(
+        select(User, func.count(Complaint.id).label("complaints_submitted"))
+        .outerjoin(Complaint, Complaint.reporter_id == User.id)
+        .where(*filters)
+        .group_by(User.id)
+        .order_by(User.created_at.desc())
+        .offset((page - 1) * page_size)
+        .limit(page_size)
     ).all()
-    return UserListResponse(items=users, total=total, page=page, page_size=page_size)
+    items = [
+        UserResponse.model_validate(user).model_copy(update={"complaints_submitted": complaints_submitted})
+        for user, complaints_submitted in user_rows
+    ]
+    return UserListResponse(items=items, total=total, page=page, page_size=page_size)
 
 
 @router.get("/me", response_model=UserResponse)

@@ -8,6 +8,7 @@ import {
   MapPin,
   MessageSquare,
   Search,
+  Trash2,
   UserRound,
   X,
 } from "lucide-react";
@@ -42,6 +43,7 @@ import type {
 import { formatDate } from "@/lib/utils";
 
 const PAGE_SIZE = 10;
+const summaryStatuses = ["Submitted", "In progress", "Resolved", "Rejected"] as const;
 const priorityClasses: Record<ComplaintPriority, string> = {
   Critical: "border-red-200 bg-red-50 text-red-700",
   High: "border-orange-200 bg-orange-50 text-orange-700",
@@ -77,6 +79,8 @@ export function ComplaintsPage() {
   const [error, setError] = useState("");
   const [evidence, setEvidence] = useState<ComplaintEvidence[]>([]);
   const [evidenceLoading, setEvidenceLoading] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -137,6 +141,7 @@ export function ComplaintsPage() {
     setPendingStatus(complaint.backendStatus);
     setNote("");
     setEvidence([]);
+    setDeleteConfirmOpen(false);
     setEvidenceLoading(true);
     complaintService
       .getEvidence(complaint.backendId)
@@ -149,6 +154,25 @@ export function ComplaintsPage() {
     setSelected(null);
     setPendingStatus(null);
     setNote("");
+    setDeleteConfirmOpen(false);
+  };
+
+  const canDeleteSelected = selected
+    ? selected.backendStatus === "SUBMITTED" || selected.backendStatus === "REJECTED"
+    : false;
+
+  const deleteSelected = async () => {
+    if (!selected || !canDeleteSelected) return;
+    setDeleting(true);
+    try {
+      await complaintService.remove(selected.backendId, "Removed by administrator");
+      setComplaints((current) => current.filter((item) => item.backendId !== selected.backendId));
+      closeDetails();
+    } catch (reason: unknown) {
+      setError(reason instanceof Error ? reason.message : "Unable to delete complaint.");
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const saveStatus = async () => {
@@ -208,8 +232,8 @@ export function ComplaintsPage() {
           </p>
         }
       />
-      <div className="mb-6 grid gap-4 sm:grid-cols-3">
-        {(["Open", "In progress", "Resolved"] as const).map((status) => (
+      <div className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {summaryStatuses.map((status) => (
           <Card key={status}>
             <CardContent className="p-4">
               <p className="text-xs font-medium text-muted-foreground">
@@ -252,9 +276,13 @@ export function ComplaintsPage() {
                 className="h-10 rounded-lg border border-input bg-background px-3 text-sm outline-none"
               >
                 <option>All statuses</option>
-                <option>Open</option>
+                <option>Submitted</option>
+                <option>Under review</option>
+                <option>AI processing</option>
+                <option>Assigned</option>
                 <option>In progress</option>
                 <option>Resolved</option>
+                <option>Rejected</option>
               </select>
               <select
                 aria-label="Priority filter"
@@ -564,6 +592,24 @@ export function ComplaintsPage() {
                   </div>
                 )}
               </div>
+              {canDeleteSelected && (
+                <div className="border-t pt-5">
+                  {deleteConfirmOpen ? (
+                    <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+                      <p className="text-sm font-semibold text-red-800">Delete this complaint?</p>
+                      <p className="mt-1 text-xs leading-5 text-red-700">This removes the report and its uploaded evidence permanently.</p>
+                      <div className="mt-3 flex gap-2">
+                        <Button variant="destructive" size="sm" onClick={deleteSelected} disabled={deleting}>{deleting ? "Deleting…" : "Confirm delete"}</Button>
+                        <Button variant="ghost" size="sm" onClick={() => setDeleteConfirmOpen(false)} disabled={deleting}>Cancel</Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <Button variant="ghost" className="gap-2 px-0 text-red-600 hover:bg-transparent hover:text-red-700" onClick={() => setDeleteConfirmOpen(true)}>
+                      <Trash2 className="h-4 w-4" />Delete complaint
+                    </Button>
+                  )}
+                </div>
+              )}
               <p className="text-xs text-muted-foreground">
                 Signed in as {user?.name ?? "Administrator"}.
               </p>

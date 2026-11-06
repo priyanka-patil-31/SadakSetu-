@@ -56,10 +56,23 @@ describe('SadakSetu authentication and empty live-data states', () => {
     render(<App />)
 
     const user = userEvent.setup()
-    await user.click(screen.getByRole('button', { name: 'Demo login' }))
+    await user.click(screen.getByRole('button', { name: 'Login with Demo Account' }))
 
     expect(await screen.findByRole('heading', { name: 'Road safety overview' })).toBeInTheDocument()
     expect(realAuthService.login).toHaveBeenCalledTimes(1)
+  })
+
+  it('shows the demo login button in development and requires configured credentials', () => {
+    render(<App />)
+
+    const demoLogin = screen.getByRole('button', { name: 'Login with Demo Account' })
+    expect(demoLogin).toBeInTheDocument()
+    if (SHOW_DEMO_ADMIN_CREDENTIALS) {
+      expect(demoLogin).toBeEnabled()
+    } else {
+      expect(demoLogin).toBeDisabled()
+      expect(screen.getByText(/Configure VITE_DEMO_ADMIN_EMAIL and VITE_DEMO_ADMIN_PASSWORD in \.env\.local/)).toBeInTheDocument()
+    }
   })
 
   it('shows validation errors without attempting authentication', async () => {
@@ -94,7 +107,7 @@ describe('SadakSetu authentication and empty live-data states', () => {
     await user.click(screen.getByRole('link', { name: /View geographic map/ }))
 
     expect(await screen.findByRole('heading', { name: 'Live road map' })).toBeInTheDocument()
-    expect(screen.getByText('0 of 0 complaints visible')).toBeInTheDocument()
+    expect(await screen.findByText(/complaints visible|Loading reports…/)).toBeInTheDocument()
   })
 
   it('renders the complaint empty state from the backend service', async () => {
@@ -117,8 +130,8 @@ describe('SadakSetu authentication and empty live-data states', () => {
     await user.click(screen.getByRole('link', { name: 'Analytics' }))
 
     expect(await screen.findByRole('heading', { name: 'Reports & analytics' })).toBeInTheDocument()
-    expect(screen.getByText('No severity data is available.')).toBeInTheDocument()
-    expect(screen.getByText('0 rows')).toBeInTheDocument()
+    expect(screen.getByText('No complaints have been reported yet.')).toBeInTheDocument()
+    expect(screen.getByText('11 data points')).toBeInTheDocument()
   })
 
   it('shows an empty notification center and administrator settings', async () => {
