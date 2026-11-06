@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SadakSetu</string>
+    <string name="file_provider_authority">com.sadaksetu.fileprovider</string>
+</resources>
