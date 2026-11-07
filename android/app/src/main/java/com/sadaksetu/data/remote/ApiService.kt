@@ -40,10 +40,23 @@ interface ApiService {
     @PATCH("api/v1/users/me")
     suspend fun updateProfile(@Body body: ProfileUpdateRequestDto): UserDto
 
+    @PATCH("api/v1/users/me/password")
+    suspend fun changePassword(@Body body: PasswordUpdateRequestDto): Map<String, String>
+
+    @GET("api/v1/locations/nearby")
+    suspend fun nearbyLocations(
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
+        @Query("radius_meters") radiusMeters: Double = 5000.0,
+    ): List<NearbyLocationDto>
+
     @GET("api/v1/complaints")
     suspend fun complaints(
         @Query("page") page: Int = 1,
-        @Query("page_size") pageSize: Int = 25,
+        @Query("page_size") pageSize: Int = 50,
+        @Query("status") status: String? = null,
+        @Query("severity") severity: String? = null,
+        @Query("search") search: String? = null,
     ): ComplaintListDto
 
     @POST("api/v1/complaints")
@@ -78,6 +91,10 @@ interface ApiService {
         @Path("complaintId") complaintId: String,
         @Path("imageId") imageId: String,
     ): ResponseBody
+
+    @Multipart
+    @POST("api/v1/ai/detect")
+    suspend fun detectDirect(@Part image: MultipartBody.Part): AiDirectDetectionResponseDto
 
     @POST("api/v1/ai/images/{imageId}/detect")
     suspend fun detectImage(@Path("imageId") imageId: String): AiDetectionDto

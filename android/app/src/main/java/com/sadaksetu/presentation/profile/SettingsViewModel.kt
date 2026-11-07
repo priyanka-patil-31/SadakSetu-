@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadaksetu.core.common.SettingsStore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,6 +24,11 @@ class SettingsViewModel @Inject constructor(
         SharingStarted.WhileSubscribed(5_000),
         true,
     )
+    val languageCode: StateFlow<String> = settingsStore.languageCode.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5_000),
+        "en",
+    )
 
     fun setDarkThemeEnabled(enabled: Boolean) {
         viewModelScope.launch { settingsStore.setDarkThemeEnabled(enabled) }
@@ -31,5 +36,9 @@ class SettingsViewModel @Inject constructor(
 
     fun setNotificationsEnabled(enabled: Boolean) {
         viewModelScope.launch { settingsStore.setNotificationsEnabled(enabled) }
+    }
+
+    fun setLanguageCode(code: String) {
+        viewModelScope.launch { settingsStore.setLanguageCode(code) }
     }
 }

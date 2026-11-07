@@ -6,6 +6,7 @@ import com.sadaksetu.core.network.toAppError
 import com.sadaksetu.data.remote.ApiService
 import com.sadaksetu.data.remote.model.ComplaintCreateRequestDto
 import com.sadaksetu.data.remote.model.LocationDto
+import com.sadaksetu.data.remote.model.NearbyLocationDto
 import com.sadaksetu.domain.models.Complaint
 import com.sadaksetu.domain.models.ComplaintUpdate
 import com.sadaksetu.domain.models.Location
@@ -51,5 +52,9 @@ class ComplaintRepositoryImpl @Inject constructor(
 
     override suspend fun history(complaintId: String): Result<List<ComplaintUpdate>> = runCatching {
         api.complaintHistory(complaintId).items.map { it.toDomain() }
+    }.recoverCatching { throw it.toAppError().asException() }
+
+    override suspend fun nearby(latitude: Double, longitude: Double, radiusMeters: Double): Result<List<NearbyLocationDto>> = runCatching {
+        api.nearbyLocations(latitude, longitude, radiusMeters)
     }.recoverCatching { throw it.toAppError().asException() }
 }

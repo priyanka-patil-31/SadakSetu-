@@ -55,6 +55,12 @@ data class ProfileUpdateRequestDto(
 )
 
 @Serializable
+data class PasswordUpdateRequestDto(
+    @SerialName("current_password") val currentPassword: String,
+    @SerialName("new_password") val newPassword: String,
+)
+
+@Serializable
 data class LocationDto(
     val id: String? = null,
     val latitude: Double,
@@ -62,6 +68,12 @@ data class LocationDto(
     val address: String? = null,
     val area: String? = null,
     val zone: String? = null,
+)
+
+@Serializable
+data class NearbyLocationDto(
+    val location: LocationDto,
+    @SerialName("distance_meters") val distanceMeters: Double,
 )
 
 @Serializable
@@ -135,6 +147,29 @@ data class AiDetectionDto(
     @SerialName("result_metadata") val resultMetadata: Map<String, kotlinx.serialization.json.JsonElement>? = null,
     @SerialName("error_message") val errorMessage: String? = null,
     @SerialName("created_at") val createdAt: String,
+)
+
+@Serializable
+data class AiDetectionBoxDto(
+    val x1: Float,
+    val y1: Float,
+    val x2: Float,
+    val y2: Float,
+    val confidence: Float,
+    val label: String,
+)
+
+@Serializable
+data class AiDirectDetectionResponseDto(
+    @SerialName("model_name") val modelName: String,
+    @SerialName("model_version") val modelVersion: String,
+    val status: String,
+    @SerialName("processing_time_ms") val processingTimeMs: Int,
+    @SerialName("detection_count") val detectionCount: Int,
+    @SerialName("image_width") val imageWidth: Int,
+    @SerialName("image_height") val imageHeight: Int,
+    val boxes: List<AiDetectionBoxDto> = emptyList(),
+    @SerialName("error_message") val errorMessage: String? = null,
 )
 
 @Serializable

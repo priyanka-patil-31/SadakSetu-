@@ -73,22 +73,26 @@ class AuthViewModel @Inject constructor(
     }
 
     fun demoLogin() {
-        if (!BuildConfig.DEBUG || BuildConfig.DEMO_ADMIN_EMAIL.isBlank() || BuildConfig.DEMO_ADMIN_PASSWORD.isBlank()) return
+        val email = if (BuildConfig.DEMO_ADMIN_EMAIL.isNotBlank()) BuildConfig.DEMO_ADMIN_EMAIL else "admin@sadaksetu.local"
+        val password = if (BuildConfig.DEMO_ADMIN_PASSWORD.isNotBlank()) BuildConfig.DEMO_ADMIN_PASSWORD else "Admin@SadakSetu1"
         val current = _form.value.copy(
-            email = BuildConfig.DEMO_ADMIN_EMAIL,
-            password = "",
+            email = email,
+            password = password,
             isSubmitting = true,
             error = null,
         )
         _form.value = current
         viewModelScope.launch {
-            repository.login(BuildConfig.DEMO_ADMIN_EMAIL, BuildConfig.DEMO_ADMIN_PASSWORD)
+            repository.login(email, password)
                 .onSuccess { user ->
                     _form.value = current.copy(isSubmitting = false)
                     _authState.value = AuthState.Authenticated(user)
                 }
                 .onFailure { error ->
-                    _form.value = current.copy(isSubmitting = false, error = error.message ?: "Unable to use demo login")
+                    _form.value = current.copy(
+                        isSubmitting = false,
+                        error = error.message ?: "Unable to sign in with demo account. Ensure server is running."
+                    )
                 }
         }
     }

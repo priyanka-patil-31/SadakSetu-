@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.sadaksetu.core.common.UiState
 import com.sadaksetu.core.network.toAppError
 import com.sadaksetu.data.remote.ApiService
+import com.sadaksetu.data.remote.model.PasswordUpdateRequestDto
 import com.sadaksetu.data.remote.model.ProfileUpdateRequestDto
 import com.sadaksetu.data.repository.toDomain
 import com.sadaksetu.domain.models.User
@@ -35,6 +36,16 @@ class ProfileViewModel @Inject constructor(private val api: ApiService) : ViewMo
             runCatching { api.updateProfile(ProfileUpdateRequestDto(email = email.trim(), fullName = name.trim())).toDomain() }
                 .onSuccess { _state.value = UiState.Data(it); onDone() }
                 .onFailure { _state.value = UiState.Error(it.toAppError().message) }
+        }
+    }
+
+    fun changePassword(current: String, new: String, onResult: (Result<String>) -> Unit) {
+        viewModelScope.launch {
+            val result = runCatching {
+                val res = api.changePassword(PasswordUpdateRequestDto(current, new))
+                res["message"] ?: "Password updated successfully"
+            }
+            onResult(result)
         }
     }
 }

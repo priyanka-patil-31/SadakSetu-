@@ -8,7 +8,7 @@ plugins {
 }
 
 val sadaksetuApiBaseUrl = providers.gradleProperty("sadaksetuApiBaseUrl")
-    .orElse("http://10.158.17.214:8001/")
+    .orElse("http://10.154.55.209:8001/")
     .get()
 // Keep demo credentials available in debug installs so the Demo login button
 // works without requiring developers to configure environment variables.
@@ -34,7 +34,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
-        buildConfigField("String", "API_BASE_URL", "\"http://10.158.17.209:8000/\"")
+        buildConfigField("String", "API_BASE_URL", "\"http://10.154.55.209:8001/\"")
     }
 
     buildTypes {

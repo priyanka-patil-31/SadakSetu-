@@ -6,6 +6,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.sadaksetu.BuildConfig
 import com.sadaksetu.core.database.SadakSetuDatabase
 import com.sadaksetu.core.network.AuthInterceptor
+import com.sadaksetu.core.network.HostFallbackInterceptor
 import com.sadaksetu.data.remote.ApiService
 import dagger.Module
 import dagger.Provides
@@ -16,6 +17,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -31,7 +33,15 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideOkHttp(authInterceptor: AuthInterceptor): OkHttpClient = OkHttpClient.Builder()
+    fun provideOkHttp(
+        authInterceptor: AuthInterceptor,
+        hostFallbackInterceptor: HostFallbackInterceptor,
+    ): OkHttpClient = OkHttpClient.Builder()
+        .connectTimeout(3, TimeUnit.SECONDS)
+        .readTimeout(10, TimeUnit.SECONDS)
+        .writeTimeout(10, TimeUnit.SECONDS)
+        .retryOnConnectionFailure(true)
+        .addInterceptor(hostFallbackInterceptor)
         .addInterceptor(authInterceptor)
         .apply {
             if (BuildConfig.DEBUG) {

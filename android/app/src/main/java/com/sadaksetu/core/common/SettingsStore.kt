@@ -3,6 +3,7 @@ package com.sadaksetu.core.common
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +25,10 @@ class SettingsStore @Inject constructor(@ApplicationContext private val context:
         preferences[NOTIFICATIONS_ENABLED] ?: true
     }
 
+    val languageCode: Flow<String> = context.settingsDataStore.data.map { preferences ->
+        preferences[LANGUAGE_CODE] ?: "en"
+    }
+
     suspend fun markWelcomeSeen() {
         context.settingsDataStore.edit { it[WELCOME_SEEN] = true }
     }
@@ -36,9 +41,14 @@ class SettingsStore @Inject constructor(@ApplicationContext private val context:
         context.settingsDataStore.edit { it[NOTIFICATIONS_ENABLED] = enabled }
     }
 
+    suspend fun setLanguageCode(code: String) {
+        context.settingsDataStore.edit { it[LANGUAGE_CODE] = code }
+    }
+
     private companion object {
         val WELCOME_SEEN = booleanPreferencesKey("has_seen_welcome")
         val DARK_THEME_ENABLED = booleanPreferencesKey("dark_theme_enabled")
         val NOTIFICATIONS_ENABLED = booleanPreferencesKey("notifications_enabled")
+        val LANGUAGE_CODE = stringPreferencesKey("language_code")
     }
 }
