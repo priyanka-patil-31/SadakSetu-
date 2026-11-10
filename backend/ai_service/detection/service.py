@@ -19,16 +19,29 @@ class DetectionResult:
     annotated_image: Any | None = None
 
 
+_MODEL_CACHE: dict[str, Any] = {}
+
+
 class PotholeDetector:
     def __init__(self, settings: Settings):
         self.settings = settings
-        self.model = self._load_verified_model()
+        self.model = self._get_or_load_model()
 
     def _model_path(self) -> Path:
         path = Path(self.settings.ai_model_path)
         if not path.is_absolute():
             path = Path(__file__).resolve().parents[2] / path
         return path.resolve()
+
+    def _get_or_load_model(self):
+        path = self._model_path()
+        path_str = str(path)
+        if path_str in _MODEL_CACHE:
+            return _MODEL_CACHE[path_str]
+
+        model = self._load_verified_model()
+        _MODEL_CACHE[path_str] = model
+        return model
 
     def _load_verified_model(self):
         path = self._model_path()

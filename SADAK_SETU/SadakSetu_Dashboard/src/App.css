@@ -1,0 +1,26 @@
+/* App-specific styles are intentionally minimal; shared tokens live in index.css. */
+
+@media print {
+  aside,
+  header,
+  .print-hidden {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+  }
+
+  .print-shell {
+    padding-left: 0 !important;
+  }
+
+  main {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  .print-page .rounded-xl {
+    box-shadow: none !important;
+  }
+}

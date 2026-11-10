@@ -59,6 +59,7 @@ def register(payload: RegisterRequest, response: Response, db: DBSession = Depen
         email=email,
         password_hash=hash_password(payload.password),
         full_name=payload.full_name.strip(),
+        phone=payload.phone.strip() if payload.phone else None,
         role=UserRole.CITIZEN,
     )
     try:

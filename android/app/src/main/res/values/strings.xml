@@ -105,4 +105,37 @@
     <string name="help_support">Help &amp; Support</string>
     <string name="about_app">About SadakSetu</string>
     <string name="sign_out">Sign out</string>
+
+    <!-- Auto-added localized strings -->
+    <string name="my_activity_overview">My Activity Overview</string>
+    <string name="view_all">View all</string>
+    <string name="gps_position">My Current GPS Position</string>
+    <string name="update_gps">Update GPS</string>
+    <string name="gps_acquiring">Acquiring GPS fix…</string>
+    <string name="civic_hazard_radar">Civic Hazard Radar &amp; Map</string>
+    <string name="tap_issue_directions">Tap any issue below to inspect road damage details or launch GPS navigation to the site.</string>
+    <string name="reported_road_issues">Reported Road Issues</string>
+    <string name="no_issues_radius">No issues in this radius</string>
+    <string name="roads_clear_notice">Roads appear clear! Report any new potholes or hazards you notice.</string>
+    <string name="open_in_maps">Open in Maps</string>
+    <string name="open_in_google_maps">Open in Google Maps Navigation</string>
+    <string name="scanning_nearby_issues">Scanning nearby civic road issues…</string>
+    <string name="dark_theme_desc">Use a comfortable dark interface</string>
+    <string name="status_notifications_desc">Receive road repair progress updates</string>
+    <string name="info_and_support">Information &amp; Support</string>
+    <string name="citizen_feedback_title">Citizen Feedback &amp; Rating</string>
+    <string name="citizen_feedback_desc">Share your review, rate road repairs or suggest improvements</string>
+    <string name="privacy_desc">Location data, permissions and citizen privacy</string>
+    <string name="help_support_desc">Reporting guidelines, FAQs and municipal helpline</string>
+    <string name="about_version">Version 1.0 (Civic Edition)</string>
+    <string name="change_password_desc">Update your account login password</string>
+    <string name="search_reports_hint">Search your reported issues…</string>
+    <string name="confirm_signout">Are you sure you want to sign out?</string>
+    <string name="cancel">Cancel</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="back_to_home">Back to Home</string>
+    <string name="map_view_title">Explore Map &amp; Hazards</string>
+    <string name="map_mode_interactive">Interactive Map</string>
+    <string name="map_mode_list">List View</string>
 </resources>

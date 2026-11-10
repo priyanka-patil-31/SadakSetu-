@@ -12,6 +12,7 @@ from app.api.v1.reports.routes import router as reports_router
 from app.api.v1.severity.routes import router as severity_router
 from app.api.v1.teams.routes import router as teams_router
 from app.api.v1.users.routes import router as users_router
+from app.api.v1.feedback.routes import router as feedback_router
 from app.core.config import get_settings
 
 settings = get_settings()
@@ -28,3 +29,4 @@ router.include_router(notifications_router)
 router.include_router(reports_router)
 router.include_router(severity_router)
 router.include_router(teams_router)
+router.include_router(feedback_router)

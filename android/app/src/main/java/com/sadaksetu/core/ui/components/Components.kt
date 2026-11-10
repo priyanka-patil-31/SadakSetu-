@@ -48,7 +48,20 @@ fun LogoHeader(modifier: Modifier = Modifier) {
             contentScale = ContentScale.Crop,
         )
         Spacer(Modifier.height(12.dp))
-        Text("SadakSetu", style = androidx.compose.material3.MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                "Sadak",
+                style = androidx.compose.material3.MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.ExtraBold,
+                color = androidx.compose.material3.MaterialTheme.colorScheme.onBackground
+            )
+            Text(
+                "Setu",
+                style = androidx.compose.material3.MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color(0xFF2DD4BF)
+            )
+        }
         Text("Safer roads, stronger communities", color = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }

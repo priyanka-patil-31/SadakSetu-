@@ -1,0 +1,5 @@
+# Optional AI-service dependencies. Install only when a verified checkpoint is approved.
+numpy==2.1.1
+opencv-python-headless==4.11.0.86
+torch==2.6.0
+ultralytics==8.3.75

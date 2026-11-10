@@ -11,13 +11,23 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Cancel
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.foundation.background
+import androidx.compose.ui.draw.clip
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Surface
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialog
@@ -54,6 +64,9 @@ import com.sadaksetu.core.ui.components.PrimaryButton
 @Composable
 fun AuthScreen(viewModel: AuthViewModel = hiltViewModel()) {
     val form by viewModel.form.collectAsState()
+    val currentServerUrl by viewModel.currentServerUrl.collectAsState()
+    var showServerConfigDialog by remember { mutableStateOf(false) }
+    var serverUrlInput by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
     var confirmPassword by remember { mutableStateOf("") }
@@ -81,7 +94,58 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel()) {
         verticalArrangement = Arrangement.Center,
     ) {
         LogoHeader()
-        Spacer(Modifier.height(24.dp))
+        Spacer(Modifier.height(12.dp))
+
+        Surface(
+            shape = RoundedCornerShape(8.dp),
+            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    serverUrlInput = currentServerUrl
+                    showServerConfigDialog = true
+                }
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Column {
+                        Text(
+                            text = "Server Connection",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = currentServerUrl,
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Medium,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+                Text(
+                    text = "Change",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+
+        Spacer(Modifier.height(16.dp))
 
         TabRow(selectedTabIndex = if (form.isRegister) 1 else 0) {
             Tab(
@@ -117,12 +181,20 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel()) {
             Spacer(Modifier.height(10.dp))
             AppTextField(
                 value = phoneNumber,
-                onValueChange = { phoneNumber = it },
-                label = stringResource(R.string.phone_number),
+                onValueChange = {
+                    localError = null
+                    phoneNumber = it.filter { ch -> ch.isDigit() }.take(10)
+                },
+                label = if (phoneNumber.isEmpty()) stringResource(R.string.phone_number) else "${stringResource(R.string.phone_number)} (${phoneNumber.length}/10 digits)",
                 trailingIcon = { Icon(Icons.Default.Phone, contentDescription = null) }
             )
             Spacer(Modifier.height(10.dp))
         }
+
+        val isEmailValid = form.email.isNotBlank() && com.sadaksetu.core.common.Validators.email(form.email) == null
+        val emailInlineError = if (form.email.isNotBlank() && form.isRegister && !isEmailValid) {
+            com.sadaksetu.core.common.Validators.email(form.email)
+        } else null
 
         AppTextField(
             value = form.email,
@@ -130,8 +202,15 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel()) {
                 localError = null
                 viewModel.updateEmail(it)
             },
-            label = stringResource(R.string.email_address),
-            trailingIcon = { Icon(Icons.Default.Email, contentDescription = null) }
+            label = if (isEmailValid) "${stringResource(R.string.email_address)} (Valid ✓)" else stringResource(R.string.email_address),
+            error = emailInlineError,
+            trailingIcon = {
+                if (isEmailValid) {
+                    Icon(Icons.Default.CheckCircle, contentDescription = "Valid email", tint = Color(0xFF10B981))
+                } else {
+                    Icon(Icons.Default.Email, contentDescription = null)
+                }
+            }
         )
         Spacer(Modifier.height(10.dp))
 
@@ -172,6 +251,33 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel()) {
                     }
                 },
             )
+
+            if (form.password.isNotEmpty()) {
+                Spacer(Modifier.height(8.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                        .padding(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text(
+                        text = "Password Requirements:",
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    PasswordRuleItem(text = "At least 8 characters", valid = form.password.length >= 8)
+                    PasswordRuleItem(text = "Uppercase (A-Z) & lowercase (a-z)", valid = form.password.any { it.isUpperCase() } && form.password.any { it.isLowerCase() })
+                    PasswordRuleItem(text = "At least one digit (0-9)", valid = form.password.any { it.isDigit() })
+                    PasswordRuleItem(text = "At least one symbol (!@#$%^&*)", valid = form.password.any { "!@#$%^&*()_+-=[]{}|;:,.<>?~`".contains(it) })
+                    if (confirmPassword.isNotEmpty()) {
+                        PasswordRuleItem(text = "Passwords match", valid = form.password == confirmPassword)
+                    }
+                }
+            }
+
             Spacer(Modifier.height(10.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -224,18 +330,48 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel()) {
         localError?.let { ErrorState(it) }
         form.error?.let { ErrorState(it) }
 
+        if (form.error != null || localError != null) {
+            Spacer(Modifier.height(6.dp))
+            OutlinedButton(
+                onClick = {
+                    serverUrlInput = currentServerUrl
+                    showServerConfigDialog = true
+                },
+                modifier = Modifier.fillMaxWidth().height(42.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = null,
+                    modifier = Modifier.padding(end = 6.dp)
+                )
+                Text("Configure Server IP / Mode", style = MaterialTheme.typography.labelSmall)
+            }
+        }
+
         Spacer(Modifier.height(16.dp))
 
         PrimaryButton(
             text = if (form.isRegister) stringResource(R.string.create_account) else stringResource(R.string.sign_in),
             onClick = {
                 if (form.isRegister) {
-                    if (form.fullName.isBlank()) {
-                        localError = "Please enter your full name."
+                    val nameErr = com.sadaksetu.core.common.Validators.name(form.fullName)
+                    if (nameErr != null) {
+                        localError = nameErr
                         return@PrimaryButton
                     }
-                    if (form.password.length < 8) {
-                        localError = "Password must be at least 8 characters."
+                    val phoneErr = com.sadaksetu.core.common.Validators.phone(phoneNumber)
+                    if (phoneErr != null) {
+                        localError = phoneErr
+                        return@PrimaryButton
+                    }
+                    val emailErr = com.sadaksetu.core.common.Validators.email(form.email)
+                    if (emailErr != null) {
+                        localError = emailErr
+                        return@PrimaryButton
+                    }
+                    val passErr = com.sadaksetu.core.common.Validators.password(form.password, registration = true)
+                    if (passErr != null) {
+                        localError = passErr
                         return@PrimaryButton
                     }
                     if (form.password != confirmPassword) {
@@ -244,6 +380,17 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel()) {
                     }
                     if (!agreedToTerms) {
                         localError = "Please accept the terms and guidelines to continue."
+                        return@PrimaryButton
+                    }
+                } else {
+                    val emailErr = com.sadaksetu.core.common.Validators.email(form.email)
+                    if (emailErr != null) {
+                        localError = emailErr
+                        return@PrimaryButton
+                    }
+                    val passErr = com.sadaksetu.core.common.Validators.password(form.password, registration = false)
+                    if (passErr != null) {
+                        localError = passErr
                         return@PrimaryButton
                     }
                 }
@@ -380,6 +527,24 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel()) {
                     Text("Cancel")
                 }
             }
+        )
+    }
+}
+
+@Composable
+private fun PasswordRuleItem(text: String, valid: Boolean) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            imageVector = if (valid) Icons.Default.CheckCircle else Icons.Default.Cancel,
+            contentDescription = null,
+            tint = if (valid) Color(0xFF10B981) else Color(0xFF94A3B8),
+            modifier = Modifier.size(14.dp)
+        )
+        Spacer(Modifier.width(6.dp))
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelSmall,
+            color = if (valid) Color(0xFF10B981) else MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

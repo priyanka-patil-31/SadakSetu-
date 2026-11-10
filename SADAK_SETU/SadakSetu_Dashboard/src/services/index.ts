@@ -1,0 +1,6 @@
+export { authService, realAuthService } from '@/services/auth-service'
+export { complaintService, realComplaintService } from '@/services/complaints-service'
+export { dashboardService, realDashboardService } from '@/services/dashboard-service'
+export type { AuthService } from '@/services/auth-service'
+export type { ComplaintService } from '@/services/complaints-service'
+export type { DashboardService } from '@/services/dashboard-service'

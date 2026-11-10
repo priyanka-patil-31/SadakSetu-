@@ -54,7 +54,7 @@ def _summary(db: DBSession, start_date: date | None, end_date: date | None) -> R
         if complaint.status == ComplaintStatus.RESOLVED:
             monthly[month].resolved += 1
             severity_resolved_distribution[complaint.severity.value] += 1
-        area = complaint.location.area if complaint.location and complaint.location.area else "Unknown"
+        area = complaint.location.area if complaint.location and complaint.location.area else "Area Not Provided"
         if area not in areas:
             areas[area] = AreaReport(area=area, total=0, critical=0, resolved=0)
         areas[area].total += 1
@@ -144,7 +144,7 @@ def complaint_csv(
                 complaint.status.value,
                 complaint.severity.value,
                 complaint.title,
-                complaint.location.area if complaint.location else "",
+                (complaint.location.area if complaint.location and complaint.location.area else "Area Not Provided"),
                 complaint.assigned_team.name if complaint.assigned_team else "",
                 complaint.created_at.isoformat(),
             ]

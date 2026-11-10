@@ -105,4 +105,37 @@
     <string name="help_support">ಸಹಾಯ ಮತ್ತು ಬೆಂಬಲ</string>
     <string name="about_app">ಸಡಕ್ ಸೇತು ಬಗ್ಗೆ</string>
     <string name="sign_out">ಲಾಗ್ ಔಟ್</string>
+
+    <!-- Auto-added localized strings -->
+    <string name="my_activity_overview">ನನ್ನ ಚಟುವಟಿಕೆಗಳ ಅವಲೋಕನ</string>
+    <string name="view_all">ಎಲ್ಲವನ್ನೂ ವೀಕ್ಷಿಸಿ</string>
+    <string name="gps_position">ನನ್ನ ಪ್ರಸ್ತುತ ಜಿಪಿಎಸ್ ಸ್ಥಳ</string>
+    <string name="update_gps">ಸ್ಥಳ ನವೀಕರಿಸಿ</string>
+    <string name="gps_acquiring">ಜಿಪಿಎಸ್ ಪಡೆಯಲಾಗುತ್ತಿದೆ…</string>
+    <string name="civic_hazard_radar">ನಾಗರಿಕ ಅಪಾಯದ ರೇಡಾರ್ ಮತ್ತು ನಕ್ಷೆ</string>
+    <string name="tap_issue_directions">ರಸ್ತೆ ಹಾನಿಯ ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ಅಥವಾ ಸ್ಥಳಕ್ಕೆ ಜಿಪಿಎಸ್ ನ್ಯಾವಿಗೇಷನ್ ಆರಂಭಿಸಲು ಕೆಳಗಿನ ಯಾವುದೇ ಸಮಸ್ಯೆಯನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ.</string>
+    <string name="reported_road_issues">ವರದಿಯಾದ ರಸ್ತೆ ಸಮಸ್ಯೆಗಳು</string>
+    <string name="no_issues_radius">ಈ ವ್ಯಾಪ್ತಿಯಲ್ಲಿ ಯಾವುದೇ ಸಮಸ್ಯೆಗಳಿಲ್ಲ</string>
+    <string name="roads_clear_notice">ರಸ್ತೆಗಳು ಸುಸ್ಥಿತಿಯಲ್ಲಿ ಕಾಣಿಸುತ್ತಿವೆ! ನೀವು ಕಂಡ ಯಾವುದೇ ಹೊಸ ಗುಂಡಿಗಳನ್ನು ವರದಿ ಮಾಡಿ.</string>
+    <string name="open_in_maps">ನಕ್ಷೆಯಲ್ಲಿ ವೀಕ್ಷಿಸಿ</string>
+    <string name="open_in_google_maps">ಗೂಗಲ್ ಮ್ಯಾಪ್ಸ್ ನ್ಯಾವಿಗೇಶನ್‌ನಲ್ಲಿ ತೆರೆಯಿರಿ</string>
+    <string name="scanning_nearby_issues">ಹತ್ತಿರದ ರಸ್ತೆ ಸಮಸ್ಯೆಗಳನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಲಾಗುತ್ತಿದೆ…</string>
+    <string name="dark_theme_desc">ಕಣ್ಣಿಗೆ ಆರಾಮದಾಯಕವಾದ ಡಾರ್ಕ್ ಇಂಟರ್ಫೇಸ್ ಬಳಸಿ</string>
+    <string name="status_notifications_desc">ರಸ್ತೆ ದುರಸ್ತಿ ಪ್ರಗತಿಯ ಅಧಿಸೂಚನೆಗಳನ್ನು ಪಡೆಯಿರಿ</string>
+    <string name="info_and_support">ಮಾಹಿತಿ ಮತ್ತು ಬೆಂಬಲ</string>
+    <string name="citizen_feedback_title">ನಾಗರಿಕರ ಪ್ರತಿಕ್ರಿಯೆ ಮತ್ತು ರೇಟಿಂಗ್</string>
+    <string name="citizen_feedback_desc">ನಿಮ್ಮ ಅನುಭವ ಹಂಚಿಕೊಳ್ಳಿ, ದುರಸ್ತಿ ರೇಟ್ ಮಾಡಿ ಅಥವಾ ಸಲಹೆ ನೀಡಿ</string>
+    <string name="privacy_desc">ಸ್ಥಳದ ಡೇಟಾ, ಅನುಮತಿಗಳು ಮತ್ತು ನಾಗರಿಕ ಗೌಪ್ಯತೆ</string>
+    <string name="help_support_desc">ವರದಿ ಮಾಡುವ ಮಾರ್ಗಸೂಚಿಗಳು ಮತ್ತು ಮುನ್ಸಿಪಲ್ ಸಹಾಯವಾಣಿ</string>
+    <string name="about_version">ಆವೃತ್ತಿ ೧.೦ (ನಾಗರಿಕ ಆವೃತ್ತಿ)</string>
+    <string name="change_password_desc">ನಿಮ್ಮ ಖಾತೆಯ ಲಾಗಿನ್ ಪಾಸ್‌ವರ್ಡ್ ನವೀಕರಿಸಿ</string>
+    <string name="search_reports_hint">ನಿಮ್ಮ ವರದಿಗಳನ್ನು ಹುಡುಕಿ…</string>
+    <string name="confirm_signout">ನೀವು ನಿಜವಾಗಿಯೂ ಲಾಗ್ ಔಟ್ ಮಾಡಲು ಬಯಸುವಿರಾ?</string>
+    <string name="cancel">ರದ್ದುಮಾಡಿ</string>
+    <string name="save_changes">ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ</string>
+    <string name="edit_profile">ಪ್ರೊಫೈಲ್ ಸಂಪಾದಿಸಿ</string>
+    <string name="back_to_home">ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</string>
+    <string name="map_view_title">ಅನ್ವೇಷಣಾ ನಕ್ಷೆ ಮತ್ತು ರಸ್ತೆ ಅಪಾಯಗಳು</string>
+    <string name="map_mode_interactive">ಸಂವಾದಾತ್ಮಕ ನಕ್ಷೆ</string>
+    <string name="map_mode_list">ಪಟ್ಟಿ ವೀಕ್ಷಣೆ</string>
 </resources>

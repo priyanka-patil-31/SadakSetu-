@@ -12,11 +12,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ExploreData(
-    val userLocation: Location?,
+    val userLocation: Location,
+    val isGpsActive: Boolean,
     val nearbyLocations: List<NearbyLocationDto>,
     val complaints: List<Complaint>,
 )
@@ -37,30 +39,34 @@ class ExploreViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = UiState.Loading
             val androidLoc = locationProvider.current()
-            val userLoc = androidLoc?.let { Location(it.latitude, it.longitude) }
 
             val complaintsResult = complaintRepository.refresh()
-            val allComplaints = complaintsResult.getOrDefault(emptyList())
-
-            if (userLoc != null) {
-                val nearbyResult = complaintRepository.nearby(userLoc.latitude, userLoc.longitude, 10000.0)
-                val nearby = nearbyResult.getOrDefault(emptyList())
-                _state.value = UiState.Data(
-                    ExploreData(
-                        userLocation = userLoc,
-                        nearbyLocations = nearby,
-                        complaints = allComplaints,
-                    )
-                )
-            } else {
-                _state.value = UiState.Data(
-                    ExploreData(
-                        userLocation = null,
-                        nearbyLocations = emptyList(),
-                        complaints = allComplaints,
-                    )
-                )
+            val allComplaints = complaintsResult.getOrElse {
+                complaintRepository.observeCached().firstOrNull() ?: emptyList()
             }
+
+            // Determine effective user location: real GPS if available, else first complaint's location or Indiranagar civic hub
+            val effectiveLoc = if (androidLoc != null) {
+                Location(androidLoc.latitude, androidLoc.longitude)
+            } else {
+                val firstValidComplaint = allComplaints.firstOrNull { it.location.latitude != 0.0 && it.location.longitude != 0.0 }
+                firstValidComplaint?.location ?: Location(12.9079, 77.6269)
+            }
+
+            val nearby = try {
+                complaintRepository.nearby(effectiveLoc.latitude, effectiveLoc.longitude, 20000.0).getOrDefault(emptyList())
+            } catch (_: Exception) {
+                emptyList()
+            }
+
+            _state.value = UiState.Data(
+                ExploreData(
+                    userLocation = effectiveLoc,
+                    isGpsActive = androidLoc != null,
+                    nearbyLocations = nearby,
+                    complaints = allComplaints,
+                )
+            )
         }
     }
 }

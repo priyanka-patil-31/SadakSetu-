@@ -1,0 +1,33 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+.coverage
+backend/.venv/
+backend/.coverage
+backend/app/uploads/*
+!backend/app/uploads/.gitkeep
+backend/.pytest_cache/
+backend/.ruff_cache/
+backend/htmlcov/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+Pothole Detection.v1i.yolov11/

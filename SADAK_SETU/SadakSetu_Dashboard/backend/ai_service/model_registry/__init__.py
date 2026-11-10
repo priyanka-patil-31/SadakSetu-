@@ -1,0 +1,1 @@
+"""Verified model registry package."""

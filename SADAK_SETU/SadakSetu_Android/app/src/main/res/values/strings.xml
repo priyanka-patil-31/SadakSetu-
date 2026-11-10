@@ -1,0 +1,108 @@
+<resources>
+    <string name="app_name">SadakSetu</string>
+    <string name="app_tagline">Safer roads, stronger communities</string>
+    <string name="file_provider_authority">com.sadaksetu.fileprovider</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_explore">Explore</string>
+    <string name="nav_report">Report</string>
+    <string name="nav_my_reports">My Reports</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Auth -->
+    <string name="sign_in">Sign in</string>
+    <string name="create_account">Create account</string>
+    <string name="full_name">Full name</string>
+    <string name="email_address">Email address</string>
+    <string name="phone_number">Mobile number</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="demo_login">Demo login</string>
+    <string name="connecting">Connecting securely…</string>
+
+    <!-- Dashboard -->
+    <string name="greeting_welcome">Welcome,</string>
+    <string name="dashboard_subheading">Keep your city roads safe and walkable</string>
+    <string name="quick_actions">Quick Actions</string>
+    <string name="action_report_issue">Report Road Issue</string>
+    <string name="action_ai_detect">AI Pothole Detection</string>
+    <string name="action_explore_nearby">Explore Nearby Issues</string>
+    <string name="action_my_reports">My Reports</string>
+    <string name="stats_total">Total Reports</string>
+    <string name="stats_pending">Pending</string>
+    <string name="stats_in_progress">In Progress</string>
+    <string name="stats_resolved">Resolved</string>
+    <string name="recent_reports">Recent Reports</string>
+    <string name="road_safety_tips">Road Safety Tips</string>
+    <string name="tip_1_title">Drive with Caution in Rain</string>
+    <string name="tip_1_desc">Waterlogged potholes can be deceptive in depth. Slow down and maintain safe braking distance.</string>
+    <string name="tip_2_title">Accurate Photos Accelerate Repair</string>
+    <string name="tip_2_desc">Take well-lit photos showing both the pothole and landmark cues for quick dispatch.</string>
+    <string name="tip_3_title">Report Damaged Manholes Urgently</string>
+    <string name="tip_3_desc">Uncovered or broken manholes are critical hazards for two-wheelers and pedestrians.</string>
+
+    <!-- Report Issue -->
+    <string name="report_title">Report Road Issue</string>
+    <string name="category_label">Issue Category</string>
+    <string name="category_pothole">Pothole</string>
+    <string name="category_damaged_road">Damaged Road</string>
+    <string name="category_road_cracks">Road Cracks</string>
+    <string name="category_waterlogging">Waterlogging</string>
+    <string name="category_broken_manhole">Broken Manhole</string>
+    <string name="category_road_shoulder">Damaged Shoulder</string>
+    <string name="category_other">Other Hazard</string>
+
+    <string name="severity_label">Severity Level</string>
+    <string name="severity_low">Low</string>
+    <string name="severity_medium">Medium</string>
+    <string name="severity_high">High</string>
+    <string name="severity_critical">Critical</string>
+
+    <string name="description_label">Description</string>
+    <string name="address_landmark_label">Address / Landmark (optional)</string>
+    <string name="location_label">Current Location</string>
+    <string name="refresh_location">Refresh GPS</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="submit_complaint">Submit Complaint</string>
+    <string name="complaint_submitted_success">Complaint Submitted Successfully!</string>
+
+    <!-- AI Detection -->
+    <string name="ai_detection_title">AI Pothole Detection</string>
+    <string name="ai_detection_desc">Analyze road images using SadakSetu YOLO11 AI vision model to detect potholes and gauge damage severity.</string>
+    <string name="run_ai_analysis">Analyze with YOLO11</string>
+    <string name="potholes_detected">Potholes Detected</string>
+    <string name="confidence_score">Confidence</string>
+    <string name="proceed_to_report">Proceed to Report</string>
+
+    <!-- Explore -->
+    <string name="explore_title">Explore Nearby Issues</string>
+    <string name="explore_subtitle">Live civic road conditions reported nearby</string>
+
+    <!-- Details -->
+    <string name="complaint_details">Complaint Details</string>
+    <string name="status_timeline">Status Timeline</string>
+    <string name="status_submitted">Submitted</string>
+    <string name="status_under_review">Under Review</string>
+    <string name="status_assigned">Assigned to Department</string>
+    <string name="status_in_progress">Work in Progress</string>
+    <string name="status_resolved_timeline">Resolved</string>
+
+    <!-- Profile & Settings -->
+    <string name="profile_title">Profile</string>
+    <string name="account_info">Account Information</string>
+    <string name="change_password">Change Password</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="settings_title">App Settings</string>
+    <string name="language_setting">Language / ಭಾಷೆ</string>
+    <string name="theme_setting">Theme</string>
+    <string name="notifications_setting">Notification Alerts</string>
+    <string name="privacy_policy">Privacy &amp; Security</string>
+    <string name="help_support">Help &amp; Support</string>
+    <string name="about_app">About SadakSetu</string>
+    <string name="sign_out">Sign out</string>
+</resources>

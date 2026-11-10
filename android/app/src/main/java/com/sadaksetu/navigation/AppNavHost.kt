@@ -122,7 +122,12 @@ fun SadakSetuApp(authViewModel: AuthViewModel = hiltViewModel()) {
                                 NavigationBarItem(
                                     selected = selected,
                                     onClick = {
-                                        if (currentRoute != item.route) {
+                                        if (item.route == Routes.Home) {
+                                            navController.navigate(Routes.Home) {
+                                                popUpTo(Routes.Home) { inclusive = false }
+                                                launchSingleTop = true
+                                            }
+                                        } else if (currentRoute != item.route) {
                                             navController.navigate(item.route) {
                                                 popUpTo(navController.graph.findStartDestination().id) {
                                                     saveState = true
@@ -165,16 +170,40 @@ fun SadakSetuApp(authViewModel: AuthViewModel = hiltViewModel()) {
                             user = state.user,
                             onCreate = { navController.navigate(Routes.ComplaintCreate) },
                             onAiDetect = { navController.navigate(Routes.AiDetection) },
-                            onExplore = { navController.navigate(Routes.Explore) },
+                            onExplore = {
+                                navController.navigate(Routes.Explore) {
+                                    popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
                             onComplaint = { navController.navigate(Routes.complaintDetail(it)) },
-                            onProfile = { navController.navigate(Routes.Profile) },
+                            onProfile = {
+                                navController.navigate(Routes.Profile) {
+                                    popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
                             onNotifications = { navController.navigate(Routes.Notifications) },
-                            onHistory = { navController.navigate(Routes.MyReports) },
+                            onHistory = {
+                                navController.navigate(Routes.MyReports) {
+                                    popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
                         )
                     }
 
                     composable(Routes.Explore) {
                         ExploreScreen(
+                            onBack = {
+                                navController.navigate(Routes.Home) {
+                                    popUpTo(Routes.Home) { inclusive = false }
+                                    launchSingleTop = true
+                                }
+                            },
                             onComplaint = { navController.navigate(Routes.complaintDetail(it)) }
                         )
                     }
@@ -206,12 +235,24 @@ fun SadakSetuApp(authViewModel: AuthViewModel = hiltViewModel()) {
                     composable(Routes.MyReports) {
                         ComplaintHistoryScreen(
                             userId = state.user.id,
+                            onBack = {
+                                navController.navigate(Routes.Home) {
+                                    popUpTo(Routes.Home) { inclusive = false }
+                                    launchSingleTop = true
+                                }
+                            },
                             onComplaint = { navController.navigate(Routes.complaintDetail(it)) }
                         )
                     }
 
                     composable(Routes.Profile) {
                         ProfileScreen(
+                            onBack = {
+                                navController.navigate(Routes.Home) {
+                                    popUpTo(Routes.Home) { inclusive = false }
+                                    launchSingleTop = true
+                                }
+                            },
                             onLogout = authViewModel::logout
                         )
                     }

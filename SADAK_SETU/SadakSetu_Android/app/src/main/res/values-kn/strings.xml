@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ಸಡಕ್ ಸೇತು</string>
+    <string name="app_tagline">ಸುರಕ್ಷಿತ ರಸ್ತೆಗಳು, ಬಲಿಷ್ಠ ಸಮುದಾಯಗಳು</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">ಮುಖಪುಟ</string>
+    <string name="nav_explore">ಅನ್ವೇಷಿಸಿ</string>
+    <string name="nav_report">ದೂರು ನೀಡಿ</string>
+    <string name="nav_my_reports">ನನ್ನ ದೂರುಗಳು</string>
+    <string name="nav_profile">ಪ್ರೊಫೈಲ್</string>
+
+    <!-- Auth -->
+    <string name="sign_in">ಲಾಗಿನ್ ಮಾಡಿ</string>
+    <string name="create_account">ಖಾತೆ ರಚಿಸಿ</string>
+    <string name="full_name">ಪೂರ್ಣ ಹೆಸರು</string>
+    <string name="email_address">ಇಮೇಲ್ ವಿಳಾಸ</string>
+    <string name="phone_number">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ</string>
+    <string name="password">ಪಾಸ್‌ವರ್ಡ್</string>
+    <string name="confirm_password">ಪಾಸ್‌ವರ್ಡ್ ದೃಢೀಕರಿಸಿ</string>
+    <string name="forgot_password">ಪಾಸ್‌ವರ್ಡ್ ಮರೆತಿರಾ?</string>
+    <string name="reset_password">ಪಾಸ್‌ವರ್ಡ್ ಮರುಹೊಂದಿಸಿ</string>
+    <string name="demo_login">ಡೆಮೊ ಲಾಗಿನ್</string>
+    <string name="connecting">ಸುರಕ್ಷಿತವಾಗಿ ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ…</string>
+
+    <!-- Dashboard -->
+    <string name="greeting_welcome">ಸ್ವಾಗತ,</string>
+    <string name="dashboard_subheading">ನಿಮ್ಮ ನಗರದ ರಸ್ತೆಗಳನ್ನು ಸುರಕ್ಷಿತವಾಗಿರಿಸಿಕೊಳ್ಳಿ</string>
+    <string name="quick_actions">ತ್ವರಿತ ಕ್ರಿಯೆಗಳು</string>
+    <string name="action_report_issue">ರಸ್ತೆ ಸಮಸ್ಯೆ ವರದಿ ಮಾಡಿ</string>
+    <string name="action_ai_detect">AI ಗುಂಡಿ ಪತ್ತೆ</string>
+    <string name="action_explore_nearby">ಹತ್ತಿರದ ಸಮಸ್ಯೆಗಳನ್ನು ನೋಡಿ</string>
+    <string name="action_my_reports">ನನ್ನ ವರದಿಗಳು</string>
+    <string name="stats_total">ಒಟ್ಟು ವರದಿಗಳು</string>
+    <string name="stats_pending">ಬಾಕಿ ಇದೆ</string>
+    <string name="stats_in_progress">ಪ್ರಗತಿಯಲ್ಲಿದೆ</string>
+    <string name="stats_resolved">ಪರಿಹರಿಸಲಾಗಿದೆ</string>
+    <string name="recent_reports">ಇತ್ತೀಚಿನ ವರದಿಗಳು</string>
+    <string name="road_safety_tips">ರಸ್ತೆ ಸುರಕ್ಷತಾ ಸಲಹೆಗಳು</string>
+    <string name="tip_1_title">ಮಳೆಯಲ್ಲಿ ಜಾಗರೂಕರಾಗಿ ಚಾಲನೆ ಮಾಡಿ</string>
+    <string name="tip_1_desc">ನೀರು ತುಂಬಿದ ಗುಂಡಿಗಳ ಆಳವನ್ನು ಅಂದಾಜಿಸುವುದು ಕಷ್ಟ. ವೇಗ ಕಡಿಮೆ ಮಾಡಿ, ಸುರಕ್ಷಿತ ಅಂತರ ಕಾಪಾಡಿ.</string>
+    <string name="tip_2_title">ಸ್ಪಷ್ಟ ಫೋಟೋಗಳು ತ್ವರಿತ ದುರಸ್ತಿಗೆ ಸಹಕಾರಿ</string>
+    <string name="tip_2_desc">ರಸ್ತೆ ಗುಂಡಿ ಮತ್ತು ಸುತ್ತಮುತ್ತಲಿನ ಹೆಗ್ಗುರುತುಗಳು ಕಾಣಿಸುವಂತೆ ಸ್ಪಷ್ಟ ಚಿತ್ರ ತೆಗೆಯಿರಿ.</string>
+    <string name="tip_3_title">ತೆರೆದ ಮ್ಯಾನ್‌ಹೋಲ್ ತಕ್ಷಣ ವರದಿ ಮಾಡಿ</string>
+    <string name="tip_3_desc">ತೆರೆದ ಅಥವಾ ಮುರಿದ ಮ್ಯಾನ್‌ಹೋಲ್‌ಗಳು ದ್ವಿಚಕ್ರ ವಾಹನ ಸವಾರರು ಮತ್ತು ಪಾದಚಾರಿಗಳಿಗೆ ಗಂಭೀರ ಅಪಾಯಕಾರಿ.</string>
+
+    <!-- Report Issue -->
+    <string name="report_title">ರಸ್ತೆ ಸಮಸ್ಯೆ ವರದಿ ಮಾಡಿ</string>
+    <string name="category_label">ಸಮಸ್ಯೆಯ ವರ್ಗ</string>
+    <string name="category_pothole">ರಸ್ತೆ ಗುಂಡಿ (Pothole)</string>
+    <string name="category_damaged_road">ಹಾಳಾದ ರಸ್ತೆ</string>
+    <string name="category_road_cracks">ರಸ್ತೆ ಬಿರುಕುಗಳು</string>
+    <string name="category_waterlogging">ನೀರು ನಿಲ್ಲುವುದು</string>
+    <string name="category_broken_manhole">ಮುರಿದ ಮ್ಯಾನ್‌ಹೋಲ್</string>
+    <string name="category_road_shoulder">ಹಾಳಾದ ರಸ್ತೆ ಅಂಚು</string>
+    <string name="category_other">ಇತರ ರಸ್ತೆ ಅಪಾಯ</string>
+
+    <string name="severity_label">ತೀವ್ರತೆಯ ಮಟ್ಟ</string>
+    <string name="severity_low">ಕಡಿಮೆ</string>
+    <string name="severity_medium">ಮಧ್ಯಮ</string>
+    <string name="severity_high">ಹೆಚ್ಚು</string>
+    <string name="severity_critical">ಗಂಭೀರ</string>
+
+    <string name="description_label">ವಿವರಣೆ</string>
+    <string name="address_landmark_label">ವಿಳಾಸ / ಹೆಗ್ಗುರುತು (ಐಚ್ಛಿಕ)</string>
+    <string name="location_label">ಪ್ರಸ್ತುತ ಸ್ಥಳ</string>
+    <string name="refresh_location">ಸ್ಥಳ ನವೀಕರಿಸಿ</string>
+    <string name="camera">ಕ್ಯಾಮೆರಾ</string>
+    <string name="gallery">ಗ್ಯಾಲರಿ</string>
+    <string name="submit_complaint">ದೂರು ಸಲ್ಲಿಸಿ</string>
+    <string name="complaint_submitted_success">ದೂರು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ!</string>
+
+    <!-- AI Detection -->
+    <string name="ai_detection_title">AI ಗುಂಡಿ ಪತ್ತೆ</string>
+    <string name="ai_detection_desc">ಸಡಕ್ ಸೇತು YOLO11 AI ಮಾದರಿಯನ್ನು ಬಳಸಿ ರಸ್ತೆ ಗುಂಡಿಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಪತ್ತೆಹಚ್ಚಿ.</string>
+    <string name="run_ai_analysis">YOLO11 ನಿಂದ ವಿಶ್ಲೇಷಿಸಿ</string>
+    <string name="potholes_detected">ಪತ್ತೆಯಾದ ಗುಂಡಿಗಳು</string>
+    <string name="confidence_score">ವಿಶ್ವಾಸಾರ್ಹತೆ</string>
+    <string name="proceed_to_report">ದೂರಿಗೆ ಮುಂದುವರಿಯಿರಿ</string>
+
+    <!-- Explore -->
+    <string name="explore_title">ಹತ್ತಿರದ ಸಮಸ್ಯೆಗಳು</string>
+    <string name="explore_subtitle">ನಿಮ್ಮ ಸುತ್ತಮುತ್ತ ವರದಿಯಾದ ರಸ್ತೆ ಸಮಸ್ಯೆಗಳು</string>
+
+    <!-- Details -->
+    <string name="complaint_details">ದೂರಿನ ವಿವರಗಳು</string>
+    <string name="status_timeline">ಸ್ಥಿತಿ ಕಾಲಕ್ರಮ</string>
+    <string name="status_submitted">ಸಲ್ಲಿಸಲಾಗಿದೆ</string>
+    <string name="status_under_review">ಪರಿಶೀಲನೆಯಲ್ಲಿದೆ</string>
+    <string name="status_assigned">ಇಲಾಖೆಗೆ ನಿಯೋಜಿಸಲಾಗಿದೆ</string>
+    <string name="status_in_progress">ಕಾಮಗಾರಿ ಪ್ರಗತಿಯಲ್ಲಿದೆ</string>
+    <string name="status_resolved_timeline">ಪರಿಹರಿಸಲಾಗಿದೆ</string>
+
+    <!-- Profile & Settings -->
+    <string name="profile_title">ಪ್ರೊಫೈಲ್</string>
+    <string name="account_info">ಖಾತೆಯ ಮಾಹಿತಿ</string>
+    <string name="change_password">ಪಾಸ್‌ವರ್ಡ್ ಬದಲಾಯಿಸಿ</string>
+    <string name="current_password">ಪ್ರಸ್ತುತ ಪಾಸ್‌ವರ್ಡ್</string>
+    <string name="new_password">ಹೊಸ ಪಾಸ್‌ವರ್ಡ್</string>
+    <string name="settings_title">ಅಪ್ಲಿಕೇಶನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳು</string>
+    <string name="language_setting">ಭಾಷೆ / Language</string>
+    <string name="theme_setting">ಥೀಮ್</string>
+    <string name="notifications_setting">ಅಧಿಸೂಚನೆಗಳು</string>
+    <string name="privacy_policy">ಗೌಪ್ಯತೆ ಮತ್ತು ಭದ್ರತೆ</string>
+    <string name="help_support">ಸಹಾಯ ಮತ್ತು ಬೆಂಬಲ</string>
+    <string name="about_app">ಸಡಕ್ ಸೇತು ಬಗ್ಗೆ</string>
+    <string name="sign_out">ಲಾಗ್ ಔಟ್</string>
+</resources>
